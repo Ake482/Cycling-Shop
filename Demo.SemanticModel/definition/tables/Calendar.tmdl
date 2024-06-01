@@ -1,0 +1,41 @@
+table Calendar
+	lineageTag: e972e4d1-2b71-4624-9ab7-e5c5449e66dd
+
+	calculationGroup
+		precedence: 2
+
+		calculationItem Order =
+				CALCULATE(
+				                                SELECTEDMEASURE()
+				                                ,USERELATIONSHIP('Date'[DateKey],'Reseller Sales'[OrderDateKey] )
+				                                )
+
+		calculationItem Shipment =
+				CALCULATE(
+				                                SELECTEDMEASURE()
+				                                ,USERELATIONSHIP('Date'[DateKey],'Reseller Sales'[ShipDateKey] )
+				                                )
+
+		calculationItem Due = ```
+				SELECTEDMEASURE()
+				                              
+				```
+
+	column Date
+		dataType: string
+		lineageTag: aa2e453d-7081-4e6f-b192-75998521018c
+		summarizeBy: none
+		sourceColumn: Name
+		sortByColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordinal
+		dataType: int64
+		formatString: 0
+		lineageTag: 54bcbb64-6938-4a41-83ed-9e6d70dc46ac
+		summarizeBy: sum
+		sourceColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+

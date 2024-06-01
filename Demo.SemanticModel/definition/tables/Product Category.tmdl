@@ -1,0 +1,44 @@
+table 'Product Category'
+	lineageTag: c193a747-5814-4e51-8c0d-e67ea3b6437f
+
+	column ProductCategoryKey
+		dataType: int64
+		formatString: 0
+		lineageTag: a653ec8a-d7e6-4a38-9cd9-93d3c372c7bc
+		summarizeBy: none
+		sourceColumn: ProductCategoryKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductCategoryAlternateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 9848f060-3b51-43c5-9cba-59feabd6e17e
+		summarizeBy: none
+		sourceColumn: ProductCategoryAlternateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: d0f99034-de9d-4684-9409-b956b8c4d602
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Product Category-fbf84305-cbf1-493c-8404-dab8b5afd4cc' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "AdventureworksDW2017"),
+				    dbo_DimProductCategory = Source{[Schema="dbo",Item="DimProductCategory"]}[Data],
+				    #"Removed Columns" = Table.RemoveColumns(dbo_DimProductCategory,{"DimProductSubcategory", "SpanishProductCategoryName", "FrenchProductCategoryName"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"EnglishProductCategoryName", "Category"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

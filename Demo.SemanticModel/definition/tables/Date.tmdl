@@ -1,0 +1,171 @@
+table Date
+	lineageTag: 020ebb2e-189e-4b2b-aa64-4182d8012b60
+	dataCategory: Time
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: bb13f2d2-768c-416e-8248-9f12f4c64424
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: Short Date
+		lineageTag: f5551671-9f5f-4c18-80a2-df9ec7d9dc15
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Day Number Of Week'
+		dataType: int64
+		formatString: 0
+		lineageTag: 9dc3e788-dd41-4466-b751-f1a2afa6993e
+		summarizeBy: none
+		sourceColumn: Day Number Of Week
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day Name'
+		dataType: string
+		lineageTag: 8098b4cc-4762-4f10-8d62-15857b32b5f2
+		summarizeBy: none
+		sourceColumn: Day Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day Number Of Month'
+		dataType: int64
+		formatString: 0
+		lineageTag: 4a197e7f-81b0-4e6d-9e88-8010bbcf4513
+		summarizeBy: none
+		sourceColumn: Day Number Of Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day Number Of Year'
+		dataType: int64
+		formatString: 0
+		lineageTag: 84ede537-8ce3-4124-b3fd-3a89f0b1a8d1
+		summarizeBy: none
+		sourceColumn: Day Number Of Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Week
+		dataType: int64
+		formatString: 0
+		lineageTag: a228701b-5a3a-4ad6-ab1a-64c02d6a271a
+		summarizeBy: none
+		sourceColumn: Week
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: string
+		lineageTag: 512e0bd4-9e03-4200-bbd6-da00b58fba19
+		summarizeBy: none
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: 7916017f-9405-4477-ac49-3e6958937654
+		summarizeBy: none
+		sourceColumn: Month Number
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		dataType: int64
+		formatString: 0
+		lineageTag: bf06de97-9466-4f22-b220-14128021e51f
+		summarizeBy: none
+		sourceColumn: Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 5b5d5719-3ee4-4472-8ff3-0ef103fb5531
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Semester
+		dataType: int64
+		formatString: 0
+		lineageTag: be88e30e-d0c1-4bd1-b019-339d5bbb448f
+		summarizeBy: none
+		sourceColumn: Semester
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarters = "Q" & 'Date'[Quarter] & " " & 'Date'[Year]
+		dataType: string
+		lineageTag: f39f0f51-e222-4d8a-816f-edb1151a7c5c
+		summarizeBy: none
+		isDataTypeInferred
+		sortByColumn: Year
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Months = LEFT('Date'[Month],3) & " " & 'Date'[Year]
+		dataType: string
+		lineageTag: 653ad8f8-eb82-4053-ac59-8c0c4ab20f97
+		summarizeBy: none
+		isDataTypeInferred
+		sortByColumn: Months-Order
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Months-Order = 'Date'[Year] & 'Date'[Month Num]
+		dataType: string
+		lineageTag: c9139c38-e06c-4af6-880c-474045ee8a13
+		summarizeBy: none
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Num' = FORMAT('Date'[Month Number],"00")
+		dataType: string
+		lineageTag: 09d82de3-eb25-4006-ad17-2a414130dab0
+		summarizeBy: none
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Date-3ba6d958-53fb-4b26-a422-c71a822d2853 = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "AdventureworksDW2017"),
+				    dbo_DimDate = Source{[Schema="dbo",Item="DimDate"]}[Data],
+				    #"Removed Columns" = Table.RemoveColumns(dbo_DimDate,{"FactCallCenter", "FactCurrencyRate", "FactFinance", "FactInternetSales(DateKey)", "FactInternetSales(DateKey) 2", "FactInternetSales(DateKey) 3", "FactProductInventory", "FactResellerSales(DateKey)", "FactResellerSales(DateKey) 2", "FactResellerSales(DateKey) 3", "FactSalesQuota", "FactSurveyResponse", "SpanishDayNameOfWeek", "FrenchDayNameOfWeek", "SpanishMonthName", "FrenchMonthName", "FiscalQuarter", "FiscalYear", "FiscalSemester"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"WeekNumberOfYear", "Week"}, {"FullDateAlternateKey", "Date"}, {"DayNumberOfWeek", "Day Number Of Week"}, {"EnglishDayNameOfWeek", "Day Name"}, {"DayNumberOfMonth", "Day Number Of Month"}, {"DayNumberOfYear", "Day Number Of Year"}, {"EnglishMonthName", "Month"}, {"MonthNumberOfYear", "Month Number"}, {"CalendarQuarter", "Quarter"}, {"CalendarYear", "Year"}, {"CalendarSemester", "Semester"}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Renamed Columns", each ([Year] = 2011 or [Year] = 2012 or [Year] = 2013))
+				in
+				    #"Filtered Rows"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

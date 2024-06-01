@@ -1,0 +1,62 @@
+relationship 058335ab-2e23-410f-a81a-f552d4fa8c00
+	fromColumn: 'Reseller Sales'.DueDateKey
+	toColumn: Date.DateKey
+
+relationship edf5ec43-4a92-484a-81cb-a9b966169fa7
+	isActive: false
+	fromColumn: 'Reseller Sales'.OrderDateKey
+	toColumn: Date.DateKey
+
+relationship 0b2ee282-19e4-40fd-a7a5-4e0026b5eb94
+	isActive: false
+	fromColumn: 'Reseller Sales'.ShipDateKey
+	toColumn: Date.DateKey
+
+relationship e003f735-0c88-4298-a17c-aaa5a725d570
+	fromColumn: 'Reseller Sales'.EmployeeKey
+	toColumn: Employee.EmployeeKey
+
+relationship 3b6f14e9-29cc-4c74-8c9a-77601352e5d9
+	fromColumn: Customer.GeographyKey
+	toColumn: Geography.GeographyKey
+
+relationship 909ffa5b-7c22-4179-b3ac-0d5d263659fe
+	fromColumn: Product.ProductSubcategoryKey
+	toColumn: 'Product Subcategory'.ProductSubcategoryKey
+
+relationship b4dbb244-0211-4945-94e9-4dabd7d51dcc
+	fromColumn: 'Reseller Sales'.ProductKey
+	toColumn: Product.ProductKey
+
+relationship 029035e8-fcbe-4295-9b49-742869e050b7
+	fromColumn: 'Product Subcategory'.ProductCategoryKey
+	toColumn: 'Product Category'.ProductCategoryKey
+
+relationship 94fe5c22-427e-44be-b295-f5434c3f9f5b
+	fromColumn: Reseller.GeographyKey
+	toColumn: Geography.GeographyKey
+
+relationship 23cbaa2d-bb9b-4396-a813-2ef25c5b817f
+	fromColumn: 'Reseller Sales'.ResellerKey
+	toColumn: Reseller.ResellerKey
+
+relationship f0410d30-1242-452b-a87e-834b26e4842c
+	fromColumn: 'Reseller Sales'.DueDateKey
+	toColumn: 'Date (Charts)'.DateKey
+
+	annotation PBI_IsFromSource = FS
+
+relationship 51ca9d44-9fc9-43da-83c2-059ba596b8e9
+	isActive: false
+	fromColumn: 'Reseller Sales'.OrderDateKey
+	toColumn: 'Date (Charts)'.DateKey
+
+	annotation PBI_IsFromSource = FS
+
+relationship 458fc10e-44a0-4200-a4e6-040eecd3b270
+	isActive: false
+	fromColumn: 'Reseller Sales'.ShipDateKey
+	toColumn: 'Date (Charts)'.DateKey
+
+	annotation PBI_IsFromSource = FS
+

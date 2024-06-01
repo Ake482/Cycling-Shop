@@ -1,0 +1,21 @@
+expression Path_Param = "C:/Users/User/Documents/Power BI/Source data/" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: f37b4ae3-6201-4319-a752-01f92fc152b6
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+
+expression Server = "localhost" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=false]
+	lineageTag: f3301b16-2175-4d67-b623-690c8f44859f
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+
+expression Database = "AdventureworksDW2017" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 9b441696-5e22-4195-ab41-8ee62393711b
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+

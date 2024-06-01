@@ -1,0 +1,149 @@
+table Calendar_Custom
+	lineageTag: 751d57c4-0bdc-4bc6-a760-5ac8eeed9908
+
+	column Date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 20135cad-7550-40ce-8320-f290d33ab9db
+		summarizeBy: none
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [Date]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 6ae0c90f-e1b0-4d65-b2f6-e4b41c3657f0
+		summarizeBy: sum
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Quarter nb'
+		dataType: int64
+		formatString: 0
+		lineageTag: dd2cfe16-1492-4ba0-86a8-30fc173e6b0d
+		summarizeBy: sum
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [Quarter nb]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		dataType: string
+		lineageTag: 16cb21cc-17c3-448f-9385-daa313acbade
+		summarizeBy: none
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [Quarter]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month nb'
+		dataType: int64
+		formatString: 0
+		lineageTag: ec4ee63d-83a8-47d7-b874-44bb8b05860f
+		summarizeBy: sum
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [Month nb]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: string
+		lineageTag: dd18e366-858d-40cf-af96-f4c346d14951
+		summarizeBy: none
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [Month]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Week
+		dataType: int64
+		formatString: 0
+		lineageTag: 6e2df96d-caa5-491d-ba32-a92798f07b40
+		summarizeBy: sum
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [Week]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Yr-Qr
+		dataType: string
+		lineageTag: e5c4cc02-0064-468e-9bfb-3915f36a2929
+		summarizeBy: none
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [Yr-Qr]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Yr-Mm
+		dataType: string
+		lineageTag: 9a285b50-4adf-4031-b35f-e25c3e4d4708
+		summarizeBy: none
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [Yr-Mm]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Yr-Wk
+		dataType: string
+		lineageTag: 5ff96581-c7ae-47ab-9822-f709c8251d13
+		summarizeBy: none
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [Yr-Wk]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day_Of_Week
+		dataType: int64
+		formatString: 0
+		lineageTag: 848dbfeb-f018-4ba8-870e-e699026c880a
+		summarizeBy: sum
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [Day_Of_Week]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day
+		dataType: string
+		lineageTag: 30b9b57e-2e3d-4a6d-8e3b-2c89dc068036
+		summarizeBy: none
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [Day]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Calendar_Custom = calculated
+		mode: import
+		source =
+				ADDCOLUMNS(
+				                        CALENDAR(FIRSTDATE('Reseller Sales'[OrderDate]),LASTDATE('Reseller Sales'[OrderDate]))
+				                        ,"Year", YEAR([Date])
+				                        ,"Quarter nb",QUARTER([Date])
+				                        ,"Quarter", "Q" & QUARTER([Date])
+				                        ,"Month nb", MONTH([Date])
+				                        ,"Month", FORMAT([Date],"mmm")
+				                        ,"Week", WEEKNUM([Date],2)
+				                        ,"Day_Of_Week", WEEKDAY([Date],2)
+				                        ,"Day", FORMAT([Date],"ddd")
+				                        ,"Yr-Qr", YEAR([Date])&"-Q"&QUARTER([Date])
+				                        ,"Yr-Mm", YEAR([Date])&"-"&FORMAT([Date],"mmm")
+				                        ,"Yr-Wk", YEAR([Date])&"-W"&WEEKNUM([Date],2)
+				)
+
+	annotation PBI_Id = f01ee9015cec4460a3e85d9512497a3c
+

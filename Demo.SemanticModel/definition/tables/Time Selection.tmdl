@@ -1,0 +1,65 @@
+table 'Time Selection'
+	isHidden
+	lineageTag: af0ca230-9e2b-4341-a415-08627064d899
+
+	column 'Time Selection'
+		dataType: string
+		isHidden
+		lineageTag: a3efe3ce-4ed6-4c90-a0cd-ac18b00e3940
+		summarizeBy: none
+		isDataTypeInferred
+		sourceColumn: [Value1]
+		sortByColumn: 'Time Selection Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Time Selection Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Time Selection Fields'
+		dataType: string
+		isHidden
+		lineageTag: eda0fbbd-7c37-41e6-9ad0-4513a714c3c6
+		summarizeBy: none
+		isDataTypeInferred
+		sourceColumn: [Value2]
+		sortByColumn: 'Time Selection Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Time Selection Order'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 46fb709b-0ab6-4bdf-9403-98ca432836a1
+		summarizeBy: sum
+		isDataTypeInferred
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Time Selection Value' = 'Time Selection'[Time Selection]
+		dataType: string
+		isHidden
+		lineageTag: 466daebc-194e-49ba-ae5a-bf18a49cde03
+		summarizeBy: none
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Time Selection-3c39b182-bc43-47ea-9d9b-5d49d94cfbe7' = calculated
+		mode: import
+		source =
+				{
+				    ("Months", NAMEOF('Date (Charts)'[Months]), 0),
+				    ("Quarters", NAMEOF('Date (Charts)'[Quarters]), 1)
+				}
+
+	annotation PBI_Id = d8f333b09963416e98968dbde6d56378
+

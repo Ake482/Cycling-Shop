@@ -1,0 +1,7 @@
+role Finance
+	modelPermission: read
+
+	tablePermission Employee = [DepartmentName] == "Finance"
+
+	annotation PBI_Id = 0a4e6c5bff764c1da8536fc164d9dd9b
+

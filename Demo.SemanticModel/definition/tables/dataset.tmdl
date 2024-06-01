@@ -1,0 +1,54 @@
+table dataset
+	isHidden
+	lineageTag: 76b7279d-7911-4e3a-a800-91050824dddb
+
+	column Country
+		dataType: string
+		isHidden
+		lineageTag: c5a0f1e8-5bf0-40f3-980b-1f568c646f8e
+		summarizeBy: none
+		sourceColumn: Country
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 411ced90-894a-49dd-a73d-23d7f2532e3c
+		summarizeBy: sum
+		sourceColumn: Year
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Population
+		dataType: string
+		isHidden
+		lineageTag: 25c2e7bf-36f5-40ea-8520-1a634f01b11a
+		summarizeBy: none
+		sourceColumn: Population
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dataset-3677cbd5-0e15-4037-806b-e713a8bba3d8 = m
+		mode: import
+		source =
+				let
+				    Source = Python.Execute("import pandas as pd#(lf)##import chardet#(lf)#(lf)dataset = pd.read_csv(""C:/Users/User/Documents/Power BI/Source data/imf-Population.csv"",encoding='ISO-8859-1')#(lf)dataset = pd.melt(dataset#(lf)                        ,id_vars = ""Population (Millions of people)""#(lf)                        ,var_name = 'Year'#(lf)                        ,value_name ='Population'#(lf)                        ,ignore_index = True)#(lf)dataset = dataset.rename(columns = {'Population (Millions of people)':'Country'})#(lf)dataset = dataset.query('Year>""2000""')"),
+				    dataset1 = Source{[Name="dataset"]}[Value],
+				    #"Changed Type" = Table.TransformColumnTypes(dataset1,{{"Country", type text}, {"Year", Int64.Type}, {"Population", type text}})
+				in
+				    #"Changed Type"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

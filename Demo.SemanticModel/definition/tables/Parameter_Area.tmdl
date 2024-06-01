@@ -1,0 +1,56 @@
+table Parameter_Area
+	isHidden
+	lineageTag: adf0d616-03a6-44a1-85ae-0804a84291d8
+
+	column Parameter_Area
+		dataType: string
+		isHidden
+		lineageTag: 2754c885-eb77-467d-8769-fefe5492a48e
+		summarizeBy: none
+		isDataTypeInferred
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter_Area Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter_Area Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_Area Fields'
+		dataType: string
+		isHidden
+		lineageTag: 783c26c3-9f4b-4d6c-a76b-4d0b0089a77f
+		summarizeBy: none
+		isDataTypeInferred
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter_Area Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_Area Order'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 0b4c3376-c67a-4af3-a5cb-e5373b85cce8
+		summarizeBy: sum
+		isDataTypeInferred
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_Area = calculated
+		mode: import
+		source =
+				{
+				    ("City", NAMEOF('Geography'[City]), 0),
+				    ("Region", NAMEOF('Geography'[Region]), 1)
+				}
+
+	annotation PBI_Id = 8cd7c791eab04d05bbaa6e95c6e805a1
+

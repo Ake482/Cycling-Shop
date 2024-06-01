@@ -1,0 +1,45 @@
+table 'Time  Period'
+	lineageTag: 1b30b23d-aca0-4b24-b465-b5e2e63e72dc
+
+	calculationGroup
+		precedence: 1
+
+		calculationItem 'Prior year' =
+				CALCULATE (
+				    SELECTEDMEASURE (),
+				    SAMEPERIODLASTYEAR ( 'Date'[Date] )
+				)
+
+		calculationItem 'Current Year' = selectedmeasure()
+
+		calculationItem 'YoY Margin' =
+				SELECTEDMEASURE ()
+				    - CALCULATE ( SELECTEDMEASURE (), SAMEPERIODLASTYEAR ( 'Date'[Date] ) )
+
+		calculationItem Growth = ```
+				VAR CY = selectedmeasure()
+				VAR delta = SELECTEDMEASURE () - CALCULATE ( SELECTEDMEASURE (), SAMEPERIODLASTYEAR ( 'Date'[Date] ) )
+				VAR result = divide(delta,CY,blank())
+				RETURN result
+				
+				```
+
+			formatStringDefinition = "#.# %"
+
+	column 'Time Periods'
+		dataType: string
+		lineageTag: ada0d15d-6f3e-4a49-80ae-fc38a27e1520
+		summarizeBy: none
+		sourceColumn: Name
+		sortByColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordinal
+		dataType: int64
+		lineageTag: af81fa04-b721-42ce-8d01-61ef3ca265e8
+		summarizeBy: sum
+		sourceColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+

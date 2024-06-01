@@ -1,0 +1,242 @@
+table Product
+	lineageTag: bc011433-ba6a-4f83-bd6a-c158f8c58454
+
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 44b142b1-d23c-44b7-967c-f942248de796
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductAlternateKey
+		dataType: string
+		lineageTag: 302171d2-9c4b-4888-a779-ddcffdd6dfb1
+		summarizeBy: none
+		sourceColumn: ProductAlternateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductSubcategoryKey
+		dataType: int64
+		formatString: 0
+		lineageTag: f906e30b-436e-4672-bca6-7639d3cb06da
+		summarizeBy: none
+		sourceColumn: ProductSubcategoryKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column WeightUnitMeasureCode
+		dataType: string
+		lineageTag: 4df0241a-94f2-47a8-8176-5fbb8281f357
+		summarizeBy: none
+		sourceColumn: WeightUnitMeasureCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column SizeUnitMeasureCode
+		dataType: string
+		lineageTag: a9292f10-0c90-45cb-8dee-a3fb31bafb44
+		summarizeBy: none
+		sourceColumn: SizeUnitMeasureCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column Name
+		dataType: string
+		formatString: general
+		lineageTag: ba016769-f095-4323-9687-7ad9191320f2
+		summarizeBy: none
+		sourceColumn: Name
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	column StandardCost
+		dataType: decimal
+		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
+		lineageTag: e142f7b3-a5ec-4b72-a2d6-eb3e9171da29
+		summarizeBy: sum
+		sourceColumn: StandardCost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	column FinishedGoodsFlag
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 8e0e4587-49ca-4969-a24f-c1e0a0fe4943
+		summarizeBy: none
+		sourceColumn: FinishedGoodsFlag
+
+		annotation SummarizationSetBy = Automatic
+
+	column Color
+		dataType: string
+		lineageTag: be5615df-9cdd-4590-b74f-d3fbe5dc4e55
+		summarizeBy: none
+		sourceColumn: Color
+
+		annotation SummarizationSetBy = Automatic
+
+	column SafetyStockLevel
+		dataType: int64
+		formatString: 0
+		lineageTag: 558b22ab-a388-472a-99f6-b08476085822
+		summarizeBy: sum
+		sourceColumn: SafetyStockLevel
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReorderPoint
+		dataType: int64
+		formatString: 0
+		lineageTag: bbc3f89b-fdee-4de3-a6fb-01cbc3ae48c0
+		summarizeBy: sum
+		sourceColumn: ReorderPoint
+
+		annotation SummarizationSetBy = Automatic
+
+	column ListPrice
+		dataType: decimal
+		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
+		lineageTag: b3f3a668-9ce7-4650-a879-86f7adef8d97
+		summarizeBy: sum
+		sourceColumn: ListPrice
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	column Size
+		dataType: string
+		lineageTag: 2cc5c286-fb85-4dae-8253-6424fc9eaeb8
+		summarizeBy: none
+		sourceColumn: Size
+
+		annotation SummarizationSetBy = Automatic
+
+	column SizeRange
+		dataType: string
+		lineageTag: 8ba932e9-0827-497f-a133-024cd4a972ee
+		summarizeBy: none
+		sourceColumn: SizeRange
+
+		annotation SummarizationSetBy = Automatic
+
+	column Weight
+		dataType: double
+		lineageTag: a75e0244-a0b0-4390-b67d-f77c626175bd
+		summarizeBy: sum
+		sourceColumn: Weight
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DaysToManufacture
+		dataType: int64
+		formatString: 0
+		lineageTag: 5d6778c1-4604-468e-9b7c-3db2474941d6
+		summarizeBy: sum
+		sourceColumn: DaysToManufacture
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductLine
+		dataType: string
+		lineageTag: 6a2904c3-f1ac-449a-a8bb-5e94278fc335
+		summarizeBy: none
+		sourceColumn: ProductLine
+
+		annotation SummarizationSetBy = Automatic
+
+	column DealerPrice
+		dataType: decimal
+		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
+		lineageTag: 7bc1fc0f-fce1-4f0f-9707-d53126b91f21
+		summarizeBy: sum
+		sourceColumn: DealerPrice
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	column Class
+		dataType: string
+		lineageTag: 87c2282e-1328-4dc4-8d4e-d9bd0d13c33e
+		summarizeBy: none
+		sourceColumn: Class
+
+		annotation SummarizationSetBy = Automatic
+
+	column Style
+		dataType: string
+		lineageTag: 4759b8b6-9491-4b5d-aaab-390505ec6fba
+		summarizeBy: none
+		sourceColumn: Style
+
+		annotation SummarizationSetBy = Automatic
+
+	column ModelName
+		dataType: string
+		lineageTag: fa5af7e5-05aa-4bfd-900a-5f015cf931e3
+		summarizeBy: none
+		sourceColumn: ModelName
+
+		annotation SummarizationSetBy = Automatic
+
+	column EnglishDescription
+		dataType: string
+		lineageTag: dd7109db-6e1c-40ba-b3cd-a22febddedec
+		summarizeBy: none
+		sourceColumn: EnglishDescription
+
+		annotation SummarizationSetBy = Automatic
+
+	column StartDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 5f6aecb3-a8ae-4e0d-a645-ca4168117e1c
+		summarizeBy: none
+		sourceColumn: StartDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column EndDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 45c49352-e2f8-4a2c-9581-c6e0af051fc0
+		summarizeBy: none
+		sourceColumn: EndDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: 090119c6-1012-4c08-9c01-428776c6e959
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Product-c1103e2f-99d8-48da-b8c8-c62d23c92418 = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "AdventureworksDW2017"),
+				    dbo_DimProduct = Source{[Schema="dbo",Item="DimProduct"]}[Data],
+				    #"Removed Columns" = Table.RemoveColumns(dbo_DimProduct,{"DimProductSubcategory", "FactInternetSales", "FactProductInventory", "FactResellerSales", "SpanishProductName", "FrenchProductName", "FrenchDescription", "ChineseDescription", "ArabicDescription", "HebrewDescription", "ThaiDescription", "GermanDescription", "JapaneseDescription", "TurkishDescription"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"EnglishProductName", "Name"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

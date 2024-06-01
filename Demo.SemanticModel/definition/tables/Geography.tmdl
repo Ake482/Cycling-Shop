@@ -1,0 +1,92 @@
+table Geography
+	lineageTag: 64137842-d8b6-4596-aa26-4f2132eadf51
+
+	column GeographyKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 789642bb-bba5-4303-8540-d7c74393ed1c
+		summarizeBy: none
+		sourceColumn: GeographyKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column City
+		dataType: string
+		lineageTag: de40ccbe-8ee3-4cce-9774-89f0262a7180
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = Automatic
+
+	column StateProvinceCode
+		dataType: string
+		lineageTag: 1e1e89e0-32cb-4f5e-8383-4f7980146229
+		summarizeBy: none
+		sourceColumn: StateProvinceCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column StateProvinceName
+		dataType: string
+		lineageTag: 496634bf-d6b3-490a-8e9f-e6496affcf3f
+		summarizeBy: none
+		sourceColumn: StateProvinceName
+
+		annotation SummarizationSetBy = Automatic
+
+	column CountryRegionCode
+		dataType: string
+		lineageTag: f8a55d04-3d51-4438-a125-0b6d1b6e89c2
+		summarizeBy: none
+		sourceColumn: CountryRegionCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 14c3ae0f-fc02-4a5f-a028-2d863882b972
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column PostalCode
+		dataType: string
+		lineageTag: 9ebc7f5f-e971-4177-b380-746241e1ed05
+		summarizeBy: none
+		sourceColumn: PostalCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesTerritoryKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 1c0946ee-649b-4e3c-9bac-ea4b28fa84a1
+		summarizeBy: count
+		sourceColumn: SalesTerritoryKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column IpAddressLocator
+		dataType: string
+		lineageTag: 1f54b88b-2fc8-4c76-8bbb-678441616981
+		summarizeBy: none
+		sourceColumn: IpAddressLocator
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Geography-31f6598b-455b-4352-85e5-5592655a609f = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "AdventureworksDW2017"),
+				    dbo_DimGeography = Source{[Schema="dbo",Item="DimGeography"]}[Data],
+				    #"Removed Columns" = Table.RemoveColumns(dbo_DimGeography,{"DimCustomer", "DimReseller", "DimSalesTerritory", "SpanishCountryRegionName", "FrenchCountryRegionName"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"EnglishCountryRegionName", "Region"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,38 @@
+table Periods
+	isHidden
+	lineageTag: 82bef5a8-ab15-4665-8c25-c2fa56d2f6fe
+
+	column Months
+		dataType: string
+		isHidden
+		lineageTag: b03b7138-341d-4770-9ff0-cac36f6cec38
+		summarizeBy: none
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: Date[Months]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type = IF(LEFT(Periods[Months],1 )="Q",1,0)
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 54dfbbeb-f1be-43fc-bd01-7802c36faf38
+		summarizeBy: sum
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Periods-ebe09d3f-aab0-48ff-a9f2-8d190015814e = calculated
+		mode: import
+		source = ```
+				UNION(VALUES('Date'[Months]),VALUES('Date'[Quarters])) --DATATABLE("Time" , STRING, "test", INTEGER, VALUES('Date'[Months]) 
+				            --SWITCH (
+				               --     TRUE()
+				                 ---   ,SELECTEDVALUE('Time Period Parameter'[Time Period Parameter]) = "Month", values('Date'[Months])
+				                 --   ,SELECTEDVALUE('Time Period Parameter'[Time Period Parameter]) = "Quarter", values('Date'[Quarters])
+				                  --  ))
+				```
+
+	annotation PBI_Id = 64b2a3283a7241e59e198316eb0c54b8
+

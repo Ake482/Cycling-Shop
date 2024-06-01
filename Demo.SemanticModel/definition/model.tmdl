@@ -1,0 +1,50 @@
+model Model
+	culture: en-GB
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: en-GB
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBIDesktopVersion = 2.129.905.0 (24.05)
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["Metrics","Selections","Date","Employee","Geography","Product","Product Category","Product Subcategory","Customer","Reseller Sales","Reseller","Date (Charts)","Countries","dataset","Path_Param","Server","Database"]
+
+annotation __TEdtr = 1
+
+annotation PBI_ProTooling = ["DaxQueryView_Desktop","CalcGroup","DevMode"]
+
+ref table Metrics
+ref table Selections
+ref table 'Sales projection 2'
+ref table Date
+ref table Employee
+ref table Geography
+ref table Product
+ref table 'Product Category'
+ref table 'Product Subcategory'
+ref table Customer
+ref table 'Reseller Sales'
+ref table Reseller
+ref table 'Financials Parameter'
+ref table 'Last N Parameter'
+ref table 'Date (Charts)'
+ref table 'Time periods'
+ref table Periods
+ref table 'Time Selection'
+ref table Rank
+ref table Countries
+ref table 'Time  Period'
+ref table dataset
+ref table Calendar
+ref table Parameter_Area
+ref table Calendar_Custom
+
+ref role Finance
+ref role 'Human Resources'
+
+ref cultureInfo en-GB
+

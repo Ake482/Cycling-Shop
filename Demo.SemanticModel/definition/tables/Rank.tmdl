@@ -1,0 +1,28 @@
+table Rank
+	lineageTag: 1ed74ffb-8492-4ce7-a42f-6cdca77e1fc9
+
+	measure 'Rank Value' = SELECTEDVALUE('Rank'[Rank])
+		formatString: 0
+		lineageTag: 5635e6f1-ffcc-4702-a849-3177dcd74a89
+
+	column Rank
+		dataType: int64
+		formatString: 0
+		lineageTag: c1ed38f0-23c0-4cb4-895d-8262a81c8b64
+		summarizeBy: none
+		isDataTypeInferred
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+		annotation SummarizationSetBy = User
+
+	partition Rank-034afae1-8593-4674-a616-d0e3446fc5a6 = calculated
+		mode: import
+		source = GENERATESERIES(3, 15, 3)
+
+	annotation PBI_Id = 2cccbab46fc745d0b08a9acfedc005c6
+

@@ -1,0 +1,29 @@
+table 'Sales projection 2'
+	isHidden
+	lineageTag: 19b9a1bd-bcf6-451f-bdfe-00f781054c88
+
+	measure 'Sales projection Value 2' = SELECTEDVALUE('Sales projection 2'[Sales projection])
+		formatString: 0.0
+		isHidden
+		lineageTag: 9a571707-52d8-41c3-b5be-6d0212795de6
+
+	column 'Sales projection'
+		dataType: double
+		isHidden
+		formatString: 0.0
+		lineageTag: e22c90d6-7db2-41f2-8cf3-24e1ff94bcaa
+		summarizeBy: none
+		isDataTypeInferred
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+		annotation SummarizationSetBy = User
+
+	partition 'Sales projection 2-c938e431-0c6e-4f79-a9c0-603d4d93e28c' = calculated
+		mode: import
+		source = GENERATESERIES(1, 2, 0.1)
+

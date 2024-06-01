@@ -1,0 +1,56 @@
+table 'Time periods'
+	isHidden
+	lineageTag: 76334ca6-9553-4412-afbd-87130396c9c6
+
+	column 'Time periods '
+		dataType: string
+		isHidden
+		lineageTag: 3412d3fa-b7c1-46ff-a160-724c9423905d
+		summarizeBy: none
+		isDataTypeInferred
+		sourceColumn: [Value1]
+		sortByColumn: 'Time periods  Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Time periods  Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Time periods  Fields'
+		dataType: string
+		isHidden
+		lineageTag: 34bfe0de-858e-4a0a-8e14-dd82a2e0feba
+		summarizeBy: none
+		isDataTypeInferred
+		sourceColumn: [Value2]
+		sortByColumn: 'Time periods  Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Time periods  Order'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: a234f591-13d2-4c9c-8858-46e70d497f6f
+		summarizeBy: sum
+		isDataTypeInferred
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Time periods-af47925e-15df-4581-be3a-9d691836820b' = calculated
+		mode: import
+		source =
+				{
+				    ("Months", NAMEOF('Date'[Months]), 0),
+				    ("Quarters", NAMEOF('Date'[Quarters]), 1)
+				}
+
+	annotation PBI_Id = 9d1e7a4df2554eb4bb84ee29c486ffa7
+

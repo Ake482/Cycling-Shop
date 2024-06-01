@@ -1,0 +1,63 @@
+table Selections
+	lineageTag: ed2f2966-a689-47a5-9654-67654c3280e9
+
+	measure Cost =
+			VAR Logic =
+			                        COUNTROWS(DISTINCT(FILTER(Selections,Selections[Selected Measures] = "Cost"))) = 1
+			                        RETURN
+			                        if(Logic ,[Total Cost],BLANK())
+		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
+		lineageTag: 6747c3d3-aa87-46de-be5e-8affd25ce028
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	measure Price =
+			VAR Logic =
+			                        COUNTROWS(DISTINCT(FILTER(Selections,Selections[Selected Measures] = "Price"))) = 1
+			                        RETURN
+			                        if(Logic ,[Total Price],BLANK())
+		formatString: 0
+		lineageTag: ee417c5c-a985-4962-b5b3-8610c1014383
+
+		changedProperty = IsHidden
+
+	measure Sales =
+			VAR Logic =
+			                        COUNTROWS(DISTINCT(FILTER(Selections,Selections[Selected Measures] = "Sales"))) = 1
+			                        RETURN
+			                        if(Logic ,[Total Sales],BLANK())
+		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
+		lineageTag: 9aff6a90-1428-48c3-bb74-4e8725128492
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	column 'Selected Measures'
+		dataType: string
+		lineageTag: f031993d-7f34-4fff-a8df-33fd5db674aa
+		summarizeBy: none
+		sourceColumn: Selected Measures
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Selections-a72635e3-41be-49a6-a6e3-0710b0eb15d0 = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WCk7MSS1WitWJVgooykxOBbOc84tLlGJjAQ==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"Column1", "Selected Measures"}})
+				in
+				    #"Renamed Columns"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

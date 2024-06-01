@@ -1,0 +1,2 @@
+EVALUATE
+    DISTINCT('Sales_Agg'[Count_Rows])

@@ -1,0 +1,286 @@
+table Metrics
+	lineageTag: d797711d-0272-4a92-92b0-663e2643acd7
+
+	measure 'Total Sales' = SUM('Reseller Sales'[Sales Amount])
+		formatString: #,0
+		lineageTag: 986516a7-d8e3-4636-82e8-6f57d9cb9cd0
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Total Order Qty' = SUM('Reseller Sales'[OrderQuantity])
+		formatString: 0
+		lineageTag: 23303d6b-c8f9-441b-8600-bb9e3c02cf0d
+
+	measure 'Total Cost' = SUM('Reseller Sales'[Product Cost])
+		formatString: #,0.00
+		lineageTag: fc1c2294-8b5f-4a04-b194-5c21734ba2ba
+
+	measure 'Total Price' = SUM('Reseller Sales'[UnitPrice])
+		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
+		lineageTag: d859059a-19be-436b-a449-cb82e09ff68a
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	measure 'Selected Year' = SELECTEDVALUE('Date'[Year])
+		formatString: 0
+		isHidden
+		lineageTag: 7b1b9e68-adef-4945-944f-92133a50d9db
+
+		changedProperty = IsHidden
+
+	measure 'Sales Projection' = [Total Sales] * 'Sales projection 2'[Sales projection Value 2]
+		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
+		lineageTag: ec65988b-d596-4b4a-8551-7bb9c25f818a
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	measure KPI = if (HASONEFILTER(Product[Name]), UNICHAR(11044), BLANK())
+		lineageTag: 3376935f-2f51-4b23-990f-51134747835a
+
+	measure 'Total Prior Sales' = ```
+			
+			                                                                       
+			                    VAR _result = SWITCH( TRUE()
+			                                           ,SELECTEDVALUE('Time Selection'[Time Selection Value]) = "Quarters", [_priorquartersales]
+			                                           ,SELECTEDVALUE('Time Selection'[Time Selection Value]) = "Months" , [_priormonthsales]
+			                                           ,BLANK()
+			                                           )
+			            RETURN _result
+			```
+		lineageTag: 7427c01c-a40a-428f-89ac-ab86314619b8
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Prior Cost' = ```
+			
+			                    VAR _maxdate = MAX('Date'[Date])
+			                   -- VAR _mindate = 
+			                    VAR _priormonthcost = 
+			                                      CALCULATE( 
+			                                                     [Total Cost]
+			                                                     ,DATESINPERIOD(
+			                                                    'Date'[Date],
+			                                                    _maxdate,
+			                                                    - 'Last N Parameter'[Last N Parameter Value]
+			                                                    ,MONTH
+			                                                   )
+			                                                    )
+			                                   
+			
+			                    VAR _priorquartercost = 
+			                                                CALCULATE( 
+			                                                     [Total Cost]
+			                                                     ,DATESINPERIOD(
+			                                                    'Date'[Date],
+			                                                    _maxdate,
+			                                                    - 'Last N Parameter'[Last N Parameter Value]
+			                                                    ,QUARTER
+			                                                   )
+			                                                    )
+			                                                   
+			                    VAR _result = SWITCH( TRUE()
+			                                           ,SELECTEDVALUE('Time Period Parameter'[Time Periods]) = "Month", _priormonthcost
+			                                           ,SELECTEDVALUE('Time Period Parameter'[Time Periods]) = "Quarter" , _priorquartercost
+			                                           )
+			            RETURN _result
+			```
+		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
+		isHidden
+		lineageTag: 0c0bef77-78dc-46e3-9efe-c5f9ea549156
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	measure _priormonthsales =
+			CALCULATE(
+			                               [Total Sales],
+			        PREVIOUSMONTH('Date'[Date])
+			    )
+		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
+		lineageTag: e8fbf3c6-819a-4c17-b0d3-c0c53078900a
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	measure _priorquartersales = ```
+			
+			                        VAR _maxdate = MAX('Date'[Date])
+			                   -- VAR _mindate = 
+			                    VAR _result = 
+			                                      CALCULATE( 
+			                                                     [Total Sales]
+			                                                     ,DATESINPERIOD(
+			                                                    'Date (Charts)'[Date],
+			                                                    _maxdate,
+			                                                    - 'Last N Parameter'[Last N Parameter Value]
+			                                                    ,QUARTER
+			                                                   )
+			                                                    )
+			                                   
+			
+			                    RETURN _result
+			```
+		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
+		lineageTag: e6c298d0-dd9a-4c7e-b507-285d81519018
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	measure 'Total Sales revenue - Last N months' = ```
+			
+			                                        VAR _selecteddate = MAX('Date'[Date])
+			                                        VAR _monthsago = EOMONTH(_selecteddate, - 'Last N Parameter'[Last N Parameter Value]-1)
+			                                        VAR _result = 
+			                                                     IF( 
+			                                                         HASONEVALUE('Date (Charts)'[Months]) 
+			                                                         && MAX('Date (Charts)'[Date]) < _selecteddate
+			                                                         && MIN('Date (Charts)'[Date]) >= _monthsago
+			                                                         ,
+			                                                         CALCULATE(
+			                                                                    [Total Sales]
+			                                                                    , FILTER(ALL('Date'[Months])
+			                                                                      ,'Date'[Months] = VALUES('Date (Charts)'[Months])
+			                                                                            )
+			                                                                    ),
+			                                                            BLANK()
+			                                                         )
+			                                        RETURN _result /1000000
+			```
+		formatString: #,0.00
+		lineageTag: 6dd744c6-024e-402b-83ee-d24e5cbc58b8
+
+	measure 'Total Product Cost - Last N months' = ```
+			
+			                                        VAR _selecteddate = MAX('Date'[Date])
+			                                        VAR _monthsago = EOMONTH(_selecteddate, - 'Last N Parameter'[Last N Parameter Value]-1)
+			                                        VAR _result = 
+			                                                     IF( 
+			                                                         HASONEVALUE('Date (Charts)'[Months]) 
+			                                                         && MAX('Date (Charts)'[Date]) < _selecteddate
+			                                                         && MIN('Date (Charts)'[Date]) >= _monthsago
+			                                                         ,
+			                                                         CALCULATE(
+			                                                                    [Total Cost]
+			                                                                    , FILTER(ALL('Date'[Months])
+			                                                                      ,'Date'[Months] = VALUES('Date (Charts)'[Months])
+			                                                                            )
+			                                                                    ),
+			                                                            BLANK()
+			                                                         )
+			                                        RETURN _result / 1000000
+			```
+		formatString: #,0.00
+		lineageTag: a50606c8-b919-47be-b106-d70cd301cdab
+
+	measure Threshold = ```
+			
+			            VAR _SalesLowerThreshold = 1.7
+			            VAR _SalesUpperThreshold = 2.5
+			            VAR _CostLowerThreshold = 1
+			            VAR _CostUpperThreshold = 2
+			            VAR _salesrevenue = [Total Sales revenue - Last N months]
+			            VAR _result =            
+			                            IF( SELECTEDVALUE('Financials Parameter'[Param values]) = "Sales Revenue"
+			            
+			                                    ,SWITCH(  TRUE()
+			                                    ,[Total Sales revenue - Last N months] > _SalesUpperThreshold, "#1a9f61"
+			                                    , AND([Total Sales revenue - Last N months] < _SalesUpperThreshold , [Total Sales revenue - Last N months] > _SalesLowerThreshold),"#ffbf00"
+			                                    ,[Total Sales revenue - Last N months] < _SalesLowerThreshold , "#ee6644"
+			                                    ,BLANK()
+			                                             )
+			                                    
+			                                    , SWITCH(  TRUE()
+			                                    ,[Total Product Cost - Last N months] > _CostUpperThreshold, "#1a9f61"
+			                                   , AND([Total Product Cost - Last N months] < _CostUpperThreshold , [Total Product Cost - Last N months] > _CostLowerThreshold), "#ffbf00"
+			                                    ,[Total Sales revenue - Last N months] < _CostLowerThreshold , "#ee6644"
+			                                    ,BLANK()
+			                                                 )
+			                                    )
+			            RETURN _result
+			```
+		lineageTag: 7ba3df62-82d6-4fb3-a5d1-eb0aceb2472e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Sales Revenue Ranking' = ```
+			
+			            VAR _ranking = [Ranking]    
+			            VAR _products = VALUES('Product Subcategory'[EnglishProductSubcategoryName])
+			            VAR _result = 
+			                         
+			                                  CALCULATE(  
+			                                        
+			                                          [Total Sales]
+			                                           ,FILTER(_products
+			                                             , RANKX(ALL('Product Subcategory'[EnglishProductSubcategoryName]),[Total Sales] ,  ,DESC) <= [Ranking]
+			                                                    )
+			                                       )
+			                                       
+			                              
+			                        RETURN _result
+			```
+		formatString: #,0
+		lineageTag: 81509658-7da2-4aa9-926c-64efebe75422
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Ranking = ```
+			
+			            IF( HASONEVALUE('Rank'[Rank])
+			                , VALUES('Rank'[Rank])
+			                ,99999999999999
+			            )
+			```
+		formatString: 0
+		lineageTag: 7ae5dfd9-b437-42f6-afbc-4bdb24fca23b
+
+	measure sales_revenue_monthly_variance = (DIVIDE([Total Sales],[_priormonthsales],0) - 1 ) *100
+		lineageTag: 9896a969-b1bb-4c30-9425-efa334ac11f8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cumulative Revenue' = CALCULATE ([Total Sales], FILTER (ALL ('Date'), 'Date'[Date] <= MAX ('Date'[Date])))/1000000
+		lineageTag: d311c362-37b4-4131-84d9-ecfac4c386bf
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure selected_metric = SELECTEDVALUE('Financials Parameter'[Param values])
+		isHidden
+		lineageTag: aaad2b1a-dfd1-4880-9b51-ee51606e7e9f
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Total_Product_Count = COUNTA('Reseller Sales'[ProductKey])
+		lineageTag: 23a4eb3d-9503-406e-b91d-c83577ed6b23
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure selected_rank = "Top "&SELECTEDVALUE('Rank'[Rank])&" selling products"
+		isHidden
+		lineageTag: 904544f0-ab54-4baa-9110-2a5e5207573e
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Metrics-608e5cf7-cf60-467a-819d-73714f887b57 = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	changedProperty = Name
+
+	annotation PBI_ResultType = Table
+
