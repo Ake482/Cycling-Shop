@@ -159,7 +159,7 @@ table Metrics
 			                                        VAR _result = 
 			                                                     IF( 
 			                                                         HASONEVALUE('Date (Charts)'[Months]) 
-			                                                         && MAX('Date (Charts)'[Date]) < _selecteddate
+			                                                        && MAX('Date (Charts)'[Date]) < _selecteddate
 			                                                         && MIN('Date (Charts)'[Date]) >= _monthsago
 			                                                         ,
 			                                                         CALCULATE(
@@ -169,11 +169,12 @@ table Metrics
 			                                                                            )
 			                                                                    ),
 			                                                            BLANK()
-			                                                         )
+			                                                        )
 			                                        RETURN _result / 1000000
 			```
-		formatString: #,0.00
 		lineageTag: a50606c8-b919-47be-b106-d70cd301cdab
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure Threshold = ```
 			
@@ -267,6 +268,43 @@ table Metrics
 		lineageTag: 904544f0-ab54-4baa-9110-2a5e5207573e
 
 		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Slicer Title' = "Last "&convert([last_n_months],STRING)&" months"
+		lineageTag: 156579ce-1dc2-4152-927d-c4a01f357499
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure last_n_months = 'Last N Parameter'[Last N Parameter Value]
+		lineageTag: f28a2c8a-f227-4dcc-97d9-109ccd6fea36
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure chart_sub_tit = ```
+			
+			             VAR arrow = IF([Total Sales]>[Total Cost]," ▲"," ▼")
+			             RETURN
+			                    IF(SELECTEDVALUE('Financials Parameter'[Financials Parameter Order])=1,
+			                        "Total Cost "&CONVERT(FORMAT([Total Cost],"£#,0,,.00M "),STRING)&UNICHAR(10)&"Total Number of products "&[Total_Product_Count]
+			                       ,"Total sales "&CONVERT(FORMAT([Total Sales],"£#,0,,.00M"),STRING )& arrow &UNICHAR(10)&" Previous Year "& 
+			                         CONVERT(FORMAT([Sales_Last_Year],"£#,0,,.00M"),STRING )
+			                        )
+			```
+		lineageTag: a0fdb654-4a70-403c-8216-62e38e3e5990
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure RAG_sales_cost =
+			IF([Total Cost] > [Total Sales],"#ee6644"
+			                    ,"#1a9f61"
+			                    )
+		lineageTag: 13201222-bda3-4515-a019-adb7446a08e1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Sales_Last_Year = CALCULATE([Total Sales],SAMEPERIODLASTYEAR('Date'[Date]))
+		lineageTag: 805f2478-6edc-4fcd-98cf-845021871d94
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 

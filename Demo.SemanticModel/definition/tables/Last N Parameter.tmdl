@@ -2,8 +2,9 @@ table 'Last N Parameter'
 	lineageTag: 41d91b70-c05c-4658-bcb3-77b79d172f54
 
 	measure 'Last N Parameter Value' = SELECTEDVALUE('Last N Parameter'[Last N Parameter])
-		formatString: 0
 		lineageTag: 809dae40-3cf4-4332-b70e-e2cde5292090
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column 'Last N Parameter'
 		dataType: int64

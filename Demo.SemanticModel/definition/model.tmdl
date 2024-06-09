@@ -7,7 +7,7 @@ model Model
 		legacyRedirects
 		returnErrorValuesAsNull
 
-annotation PBIDesktopVersion = 2.129.905.0 (24.05)
+annotation PBIDesktopVersion = 2.129.1229.0 (24.05)
 
 annotation __PBI_TimeIntelligenceEnabled = 0
 
